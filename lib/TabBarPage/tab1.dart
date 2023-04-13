@@ -44,6 +44,32 @@ class _MyAppState extends State<Subject> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // Container(
+              //     child: TextFormField(
+              //   decoration: InputDecoration(
+              //     suffixIcon: InkWell(
+              //       onTap: () => "",
+              //       child: Container(
+              //         height: 25,
+              //         color: Colors.transparent,
+              //         child: AspectRatio(
+              //           aspectRatio: 1 / 1,
+              //           child: Center(
+              //             child: Icon(
+              //               Icons.search,
+              //               color: Colors.black,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //     hintText: 'Хичээлийн код, группийн дугаар',
+              //     contentPadding: EdgeInsets.symmetric(horizontal: 15),
+              //     border: OutlineInputBorder(
+              //       borderSide: BorderSide(width: 1, color: Colors.black),
+              //     ),
+              //   ),
+              // )),
               Container(
                 width: 388,
                 height: 113,

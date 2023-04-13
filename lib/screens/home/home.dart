@@ -51,49 +51,12 @@ class _HomeViewState extends State<HomeView>
                 //  mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  //search button
-        //             Container(
-        //   margin: EdgeInsets.only(top: 50),
-        //   child: SizedBox(
-        //     width: 353,
-        //     height: 66,
-        //     child: ElevatedButton(
-        //         style: ElevatedButton.styleFrom(
-        //           backgroundColor: Color(0xffFF7A4F), //bgcolor
-        //           shadowColor: Color(0xffFF7A4F),
-        //           surfaceTintColor: Color(0xffFF7A4F),
-        //           disabledBackgroundColor: Color(0xffFF7A4F),
-        //           disabledForegroundColor: Color(0xffFF7A4F),
-        //           shape: RoundedRectangleBorder(
-        //             borderRadius: BorderRadius.circular(50),
-        //           ),
-        //         ),
-        //         onPressed: () {
-        //          // Navigator.of(context).push(createRoute(CreateView()));
-        //         },
-        //         child: Row(
-        //         // crossAxisAlignment: CrossAxisAlignment.center,
-        //         //  mainAxisSize: MainAxisSize.min,
-        //           // mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //           children: [
-        //             Padding(
-        //               padding: const EdgeInsets.only(left: 39, right: 30),
-        //               child: Image.asset(
-        //                 'assets/images/search.png',
-        //                 width: 48,
-        //                 height: 48,
-        //               ),
-        //             ),
-        //             Text('Хичээлийн код, группийн дугаар'),
-        //           ],
-        //         )),
-        //   ),
-        // ),
                   Text(
                     'Chats',
                     //  textAlign: TextAlign.left,
                     style: TextStyle(fontSize: 34, fontWeight: FontWeight.w700),
                   ),
+                  
                   SizedBox(height: 50),
                   Container(
                     // height: 50,
