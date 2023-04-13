@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:ufu_chat_app/TabBarPage/tab1.dart';
 import 'package:ufu_chat_app/TabBarPage/tab2.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../provider/base_client.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  final String username;
+  const HomeView({super.key, required this.username});
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -31,52 +33,115 @@ class _HomeViewState extends State<HomeView>
   @override
   Widget build(BuildContext context) {
     // var i = activeIndex;
+    final TextEditingController groupnameController = TextEditingController();
+    final BaseClient baseClient = BaseClient();
+    var uuid = const Uuid();
+    void insertData() async {
+      await baseClient.post("group", {
+        "groupname": groupnameController.text,
+        "username": widget.username,
+        "groupid": uuid.v4(),
+        "isLesson": "false",
+      }).then((value) {
+        print("-----------------------");
+        print(value);
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
+        title: Text(widget.username,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            )),
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
         elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black54),
-        actionsIconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black54),
+        actions: [
+          IconButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                          child: AlertDialog(
+                        title: const Text("Logout"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Cancel")),
+                          TextButton(
+                              onPressed: () {
+                                insertData();
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Create"))
+                        ],
+                        content: TextFormField(
+                          controller: groupnameController,
+                          autocorrect: false,
+                          keyboardType: TextInputType.visiblePassword,
+                          decoration: const InputDecoration(
+                            labelText: "Some Text",
+                            labelStyle:
+                                TextStyle(fontSize: 20.0, color: Colors.black),
+                            fillColor: Colors.blue,
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50.0)),
+                                borderSide:
+                                    BorderSide(color: Colors.purpleAccent)),
+                          ),
+                        ),
+                      ));
+                    });
+              },
+              icon: const Icon(Icons.add))
+        ],
+        actionsIconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
             width: MediaQuery.of(context).size.width,
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 //  mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Chats',
                     //  textAlign: TextAlign.left,
                     style: TextStyle(fontSize: 34, fontWeight: FontWeight.w700),
                   ),
-                  
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   Container(
                     // height: 50,
                     width: MediaQuery.of(context).size.height,
                     decoration: BoxDecoration(
-                        color: Color.fromRGBO(213, 242, 255, 1),
+                        color: const Color.fromRGBO(213, 242, 255, 1),
                         borderRadius: BorderRadius.circular(15)),
                     child: Column(children: [
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: TabBar(
-                          unselectedLabelColor: Colors.black,
-                            labelColor: Color(0xffFF7A4F),
-                            dividerColor:Color(0xffFF7A4F),
-                            indicatorColor:Color(0xffFF7A4F),
+                            unselectedLabelColor: Colors.black,
+                            labelColor: const Color(0xffFF7A4F),
+                            dividerColor: const Color(0xffFF7A4F),
+                            indicatorColor: const Color(0xffFF7A4F),
                             // labelColor: i== activeIndex
                             // ? Color.fromRGBO(255, 122, 79, 1)
                             //       : Colors.black,
                             controller: tabController,
-                            tabs: [
+                            tabs: const [
                               Tab(
                                 text: 'Хичээл',
                               ),
@@ -87,12 +152,14 @@ class _HomeViewState extends State<HomeView>
                       )
                     ]),
                   ),
-                   Expanded(
+                  Expanded(
                     child: TabBarView(
                       controller: tabController,
                       children: [
-                        Subject(),
-                        Team(),
+                        Subject(username: widget.username),
+                        Team(
+                          username: widget.username,
+                        ),
                       ],
                     ),
                   )

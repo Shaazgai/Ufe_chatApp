@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ufu_chat_app/screens/home/create_page.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ufu_chat_app/screens/home/home.dart';
-
-import '../shared/shared.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,13 +10,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
       children: [
         Container(
-          margin: EdgeInsets.only(top: 65),
+          margin: const EdgeInsets.only(top: 65),
           child: Center(
             child: Image.asset(
               'assets/images/Login_pro.png',
@@ -28,8 +28,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 20),
-          child: Text('lorem',
+          margin: const EdgeInsets.only(top: 20),
+          child: const Text('lorem',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w300,
@@ -37,23 +37,36 @@ class _LoginPageState extends State<LoginPage> {
               )),
         ),
         Container(
-          margin: EdgeInsets.only(top: 50),
+          margin: const EdgeInsets.only(top: 50),
           child: SizedBox(
             width: 353,
             height: 66,
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xffFF7A4F), //bgcolor
-                  shadowColor: Color(0xffFF7A4F),
-                  surfaceTintColor: Color(0xffFF7A4F),
-                  disabledBackgroundColor: Color(0xffFF7A4F),
-                  disabledForegroundColor: Color(0xffFF7A4F),
+                  backgroundColor: const Color(0xffFF7A4F), //bgcolor
+                  shadowColor: const Color(0xffFF7A4F),
+                  surfaceTintColor: const Color(0xffFF7A4F),
+                  disabledBackgroundColor: const Color(0xffFF7A4F),
+                  disabledForegroundColor: const Color(0xffFF7A4F),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.of(context).push(createRoute(HomeView()));
+                onPressed: () async {
+                  try {
+                    await _googleSignIn.signIn().then((value) {
+                      String username = value!.displayName!;
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  HomeView(username: username)));
+                    });
+                  } catch (error) {
+                    print(error);
+                    print("This is error from login");
+                  }
                 },
                 child: Row(
                   // crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,13 +81,13 @@ class _LoginPageState extends State<LoginPage> {
                         height: 48,
                       ),
                     ),
-                    Text('Sign Up with Google'),
+                    const Text('Sign Up with Google'),
                   ],
                 )),
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 50),
+          margin: const EdgeInsets.only(top: 50),
           child: Center(
             child: Image.asset(
               'assets/images/Hgver_.png',
